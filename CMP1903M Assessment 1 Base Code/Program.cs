@@ -29,7 +29,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 
 
             //TO ADD: Get the frequency of individual letters?
-            Console.WriteLine("Hello");
+            
            
         }
         
