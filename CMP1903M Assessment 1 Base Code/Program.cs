@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CMP1903M_Assessment_1_Base_Code
 {
+   
     class Program
     {
         static void Main()
@@ -16,21 +17,42 @@ namespace CMP1903M_Assessment_1_Base_Code
 
             //Create 'Input' object
             //Get either manually entered text, or text from a file
-
-
-            //Create an 'Analyse' object
-            //Pass the text input to the 'analyseText' method
-
-
-            //Receive a list of integers back
-
-
-            //Report the results of the analysis
-
-
-            //TO ADD: Get the frequency of individual letters?
+            Console.WriteLine("1. Do you want to enter the text via the keyboard?\n2. Do you want to read in the form of a text file?");
+            String option=Console.ReadLine();
+            int choice = 0;
+            bool success = int.TryParse(option, out choice);
+            if (success==false)
+            {
+                Console.WriteLine("No");
+                Environment.Exit(1);
+            }
             
-           
+            Input input = new Input();
+            if (choice==1)
+            {
+                
+                option = input.manualTextInput();
+            }
+            else if (choice==2)
+            {
+                 option = input.fileTextInput("CMP1903M Assessment 1 Test File.txt");
+            }
+            else
+            {
+                
+            }
+             Console.WriteLine(option);
+ 
+            //Create an 'Analyse' object
+            Analyse analyse = new Analyse();
+            //Pass the text input to the 'analyseText' method
+            //Receive a list of integers back
+            parameters = analyse.analyseText(option);
+            //Report the results of the analysis
+            Report.outputConsole(parameters);
+            //TO ADD: Get the frequency of individual letters?
+
+
         }
         
         
