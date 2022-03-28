@@ -20,7 +20,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             String entry = "";
             while (!entry.Contains('*'))
             {
-                Console.WriteLine("Indicate the end of the entry with an *\nYour entry:");
+                Console.Write("Indicate the end of the entry with an *\nYour entry:");
                 entry+=Console.ReadLine();
             }
             text = entry;
@@ -34,17 +34,24 @@ namespace CMP1903M_Assessment_1_Base_Code
         //Arguments: string (the file path)
         //Returns: string
         //Gets text input from a .txt file
-        public string fileTextInput(string fileName)
+        public string fileTextInput()
         {
-           
+            string text = "";
+            Console.Write("Enter file name: ");
+            string? fileName = Console.ReadLine();
+            if (fileName == null || fileName == "")
+            {
+                fileName = "CMP1903M Assessment 1 Test File.txt";
+            }
             try
             {
-                this.text = System.IO.File.ReadAllText(fileName);
+                text = System.IO.File.ReadAllText(fileName); 
                 trimTextEnd();
             }
             catch (Exception e)
             {
-                Console.WriteLine("Something went wrong with reading your file");
+                Console.Error.WriteLine(e.Message);
+                Environment.Exit(1);
             }
             return text;
         }

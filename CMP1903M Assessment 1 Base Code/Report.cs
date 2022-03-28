@@ -8,14 +8,43 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     class Report
     {
-        public static void outputConsole(List<int> parameters)
+        public static void outputConsole(AnalysisData data)
         {
-            Console.WriteLine($"Number of sentences:{parameters[0]}\nNumber of vowels:{parameters[1]}\nNumber of consonants:{parameters[2]}\nNumber of upper case letters:{parameters[3]}\nNumber of lower case letters:{parameters[4]}\nNumber of words with 7 or more letters:{parameters[5]}");
+            Console.Write(outputStringFromAnalysisData(data));
         }
         //Handles the reporting of the analysis
         //Maybe have different methods for different formats of output?
         //eg.   public void outputConsole(List<int>)
-
+        private static string outputStringFromAnalysisData(AnalysisData data)
+        {
+            char[] letters = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Number of sentences: " + data.TotalSentences);
+            sb.AppendLine("Number of vowels: " + data.TotalVowels);
+            sb.AppendLine("Number of consonants: " + data.TotalConsonants);
+            sb.AppendLine("Number of upper case letters: " + data.TotalUpper);
+            sb.AppendLine("Number of lower case letters: " + data.TotalLower);
+            sb.AppendLine("Number of words longer than seven letters: " + data.TotalLongWords);
+            sb.AppendLine("Frequency of individual letters: ");
+            int numberOfColumns = 4;
+            for (int i = 0; i < letters.Length; i = i + numberOfColumns)
+            {
+                char[] rowLetters = letters.Skip(i).Take(numberOfColumns).ToArray();
+                string row = "";
+                foreach (char letter in rowLetters)
+                {
+                    int count = data.CharacterFrequency.ContainsKey(letter) ? data.CharacterFrequency[letter] : 0;
+                    row += String.Format("{0}: {1,5} ", letter, count);
+                }
+                sb.AppendLine(row);
+            }
+            //foreach (char letter in letters)
+            //{                
+            //    int count = data.CharacterFrequency.ContainsKey(letter) ? data.CharacterFrequency[letter] : 0;
+            //    sb.AppendLine(letter + ": " + count);
+            //}
+            return sb.ToString();
+        }
     }
 
 }

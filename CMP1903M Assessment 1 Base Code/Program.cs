@@ -18,6 +18,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             //Create 'Input' object
             //Get either manually entered text, or text from a file
             Console.WriteLine("1. Do you want to enter the text via the keyboard?\n2. Do you want to read in the form of a text file?");
+            Console.Write("Option: ");
             String option=Console.ReadLine();
             int choice = 0;
             bool success = int.TryParse(option, out choice);
@@ -28,29 +29,23 @@ namespace CMP1903M_Assessment_1_Base_Code
             }
             
             Input input = new Input();
-            if (choice==1)
+            switch (choice)
             {
-                
-                option = input.manualTextInput();
+                case 1:
+                    option = input.manualTextInput();
+                    break;
+                case 2:
+                    option = input.fileTextInput();
+                    break;
+                default:
+                    Console.WriteLine("Invalid option selected.");
+                    Environment.Exit(1);
+                    break;
             }
-            else if (choice==2)
-            {
-                 option = input.fileTextInput("CMP1903M Assessment 1 Test File.txt");
-            }
-            else
-            {
-                
-            }
-             Console.WriteLine(option);
- 
-            //Create an 'Analyse' object
-            Analyse analyse = new Analyse();
             //Pass the text input to the 'analyseText' method
-            //Receive a list of integers back
-            parameters = analyse.analyseText(option);
+            AnalysisData data = Analyse.analyseText(option);
             //Report the results of the analysis
-            Report.outputConsole(parameters);
-            //TO ADD: Get the frequency of individual letters?
+            Report.outputConsole(data);           
 
 
         }
