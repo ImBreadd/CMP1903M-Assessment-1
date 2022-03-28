@@ -8,13 +8,17 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     class Report
     {
-        public static void outputConsole(AnalysisData data)
+        //Outputs to console
+        public static void outputReportToConsole(AnalysisData data)
         {
             Console.Write(outputStringFromAnalysisData(data));
         }
-        //Handles the reporting of the analysis
-        //Maybe have different methods for different formats of output?
-        //eg.   public void outputConsole(List<int>)
+        //Outputs to text file
+        public static void outputReportToTextFile(AnalysisData data)
+        {
+            File.WriteAllText("Text-Analysis-Report-" + DateTime.Now.Ticks + ".txt", data.OriginalText + "\n\n" + outputStringFromAnalysisData(data));
+        }
+        //Builds output string
         private static string outputStringFromAnalysisData(AnalysisData data)
         {
             char[] letters = "abcdefghijklmnopqrstuvwxyz".ToCharArray();
@@ -25,8 +29,9 @@ namespace CMP1903M_Assessment_1_Base_Code
             sb.AppendLine("Number of upper case letters: " + data.TotalUpper);
             sb.AppendLine("Number of lower case letters: " + data.TotalLower);
             sb.AppendLine("Number of words longer than seven letters: " + data.TotalLongWords);
+            //Build character frequency table
             sb.AppendLine("Frequency of individual letters: ");
-            int numberOfColumns = 4;
+            int numberOfColumns = 5;
             for (int i = 0; i < letters.Length; i = i + numberOfColumns)
             {
                 char[] rowLetters = letters.Skip(i).Take(numberOfColumns).ToArray();
@@ -38,11 +43,6 @@ namespace CMP1903M_Assessment_1_Base_Code
                 }
                 sb.AppendLine(row);
             }
-            //foreach (char letter in letters)
-            //{                
-            //    int count = data.CharacterFrequency.ContainsKey(letter) ? data.CharacterFrequency[letter] : 0;
-            //    sb.AppendLine(letter + ": " + count);
-            //}
             return sb.ToString();
         }
     }

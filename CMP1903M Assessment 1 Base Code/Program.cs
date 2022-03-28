@@ -19,12 +19,12 @@ namespace CMP1903M_Assessment_1_Base_Code
             //Get either manually entered text, or text from a file
             Console.WriteLine("1. Do you want to enter the text via the keyboard?\n2. Do you want to read in the form of a text file?");
             Console.Write("Option: ");
-            String option=Console.ReadLine();
+            string? option = Console.ReadLine();
             int choice = 0;
             bool success = int.TryParse(option, out choice);
-            if (success==false)
+            if (success == false)
             {
-                Console.WriteLine("No");
+                Console.WriteLine("Invalid option selected.");
                 Environment.Exit(1);
             }
             
@@ -38,14 +38,15 @@ namespace CMP1903M_Assessment_1_Base_Code
                     option = input.fileTextInput();
                     break;
                 default:
-                    Console.WriteLine("Invalid option selected.");
+                    Console.WriteLine("(" + choice + ") is not a valid option.");
                     Environment.Exit(1);
                     break;
             }
             //Pass the text input to the 'analyseText' method
             AnalysisData data = Analyse.analyseText(option);
             //Report the results of the analysis
-            Report.outputConsole(data);           
+            Report.outputReportToConsole(data);
+            Report.outputReportToTextFile(data);
 
 
         }

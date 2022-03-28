@@ -8,23 +8,21 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     public class Input
     {
-        //Handles the text input for Assessment 1
-        string text = "nothing";
-        
         //Method: manualTextInput
         //Arguments: none
         //Returns: string
         //Gets text input from the keyboard
         public string manualTextInput()
         {
+            string text = "";
             String entry = "";
+            Console.Write("Indicate the end of the entry with an *\nYour entry: ");
             while (!entry.Contains('*'))
             {
-                Console.Write("Indicate the end of the entry with an *\nYour entry:");
-                entry+=Console.ReadLine();
+                entry += Console.ReadLine();
             }
             text = entry;
-            trimTextEnd();
+            text = trimTextEnd(text);
             
 
             return text;
@@ -37,7 +35,7 @@ namespace CMP1903M_Assessment_1_Base_Code
         public string fileTextInput()
         {
             string text = "";
-            Console.Write("Enter file name: ");
+            Console.Write("Enter file name (CMP1903M Assessment 1 Test File.txt): ");
             string? fileName = Console.ReadLine();
             if (fileName == null || fileName == "")
             {
@@ -45,8 +43,8 @@ namespace CMP1903M_Assessment_1_Base_Code
             }
             try
             {
-                text = System.IO.File.ReadAllText(fileName); 
-                trimTextEnd();
+                text = System.IO.File.ReadAllText(fileName);
+                text = trimTextEnd(text);
             }
             catch (Exception e)
             {
@@ -56,9 +54,9 @@ namespace CMP1903M_Assessment_1_Base_Code
             return text;
         }
         //Removes the asterix and everything after it
-        private void trimTextEnd()
+        private string trimTextEnd(string input)
         {   
-            this.text = this.text.Substring(0, this.text.IndexOf("*"));
+            return input.Substring(0, input.IndexOf("*"));
 
         }
     }

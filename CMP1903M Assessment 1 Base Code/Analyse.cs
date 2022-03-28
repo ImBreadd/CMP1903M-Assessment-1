@@ -11,7 +11,7 @@ namespace CMP1903M_Assessment_1_Base_Code
     {       
         static readonly int longWordLimit = 7;
         static readonly HashSet<char> vowels = new HashSet<char> { 'a', 'e', 'i', 'o', 'u' };
-        static readonly HashSet<char> punctuation = new HashSet<char> { '.', '!', '?', };
+        static readonly HashSet<char> punctuation = new HashSet<char> { '.', '!', '?' };
         //Handles the analysis of text
 
         //Method: analyseText
@@ -25,9 +25,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             int totalSentences = 0;
             int totalLongWords = 0;
             int totalVowels = 0;
-            int totalConsonants = 0;
             int totalUpper = 0;
-            int totalLower = 0;
 
             // Number of sentences
             string[] allSentences = inputText.Split(punctuation.ToArray(), StringSplitOptions.RemoveEmptyEntries);
@@ -35,7 +33,7 @@ namespace CMP1903M_Assessment_1_Base_Code
 
             // Number of words
             char[] numerals = "0123456789".ToCharArray();
-            char[] ignoredCharacters = ",'-".ToCharArray();
+            char[] ignoredCharacters = ",'-:;$£%(){}~@:?><\\\"/#=_+`¬~|".ToCharArray();
             string textWithoutPunctuation = String.Join(" ", allSentences);
             string textWithoutPunctuationAndIgnoredCharacters = String.Join("", textWithoutPunctuation.Split(ignoredCharacters, StringSplitOptions.RemoveEmptyEntries));
             string textWithoutPunctuationAndIgnoredCharactersAndNumerals = String.Join("", textWithoutPunctuationAndIgnoredCharacters.Split(numerals, StringSplitOptions.RemoveEmptyEntries));
@@ -49,47 +47,38 @@ namespace CMP1903M_Assessment_1_Base_Code
             }
 
             // Individual character analysis
-            string textWithoutPunctuationOrSpaces = String.Join(String.Empty, words);
+            string charactersFromText = String.Join(String.Empty, words);
+            int totalCharacterCount = charactersFromText.Length;
             Dictionary<char, int> characterFrequency = new Dictionary<char, int>();
-            foreach (char c in textWithoutPunctuationOrSpaces)
+            foreach (char c in charactersFromText)
             {
-                if (char.IsLetter(c))
+                //Check case of character
+                if (char.IsUpper(c))
                 {
-                    //Check case of character
-                    if (char.IsUpper(c))
-                    {
-                        totalUpper++;
-                    }
-                    else
-                    {
-                        totalLower++;
-                    }
-                    //Check if character is a vowel or consonant
-                    if (vowels.Contains(char.ToLower(c)))
-                    {
-                        totalVowels++;
-                    }
-                    else
-                    {
-                        totalConsonants++;
-                    }
-                    //Build a frequency dictionary
-                    if (characterFrequency.ContainsKey(c))
-                    {
-                        characterFrequency[c]++;
-                    }
-                    else
-                    {
-                        characterFrequency[c] = 1;
-                    }                                                                                  
+                    totalUpper++;
                 }
+                //Check if character is a vowel or consonant
+                if (vowels.Contains(char.ToLower(c)))
+                {
+                    totalVowels++;
+                }
+                //Build a frequency dictionary
+                if (characterFrequency.ContainsKey(c))
+                {
+                    characterFrequency[c]++;
+                }
+                else
+                {
+                    characterFrequency[c] = 1;
+                }                                                                                  
             }
-            return new AnalysisData(totalSentences, totalVowels, totalConsonants, totalUpper, totalLower, totalLongWords, characterFrequency);           
+            return new AnalysisData(inputText, totalSentences, totalVowels, totalCharacterCount-totalVowels, totalUpper,totalCharacterCount-totalUpper, totalLongWords, characterFrequency);           
         }
     }
 
     public class AnalysisData
     {
+        public string OriginalText { get; }
         public int TotalSentences { get; }
         public int TotalVowels { get; }
         public int TotalConsonants { get; }
@@ -97,8 +86,9 @@ namespace CMP1903M_Assessment_1_Base_Code
         public int TotalLower { get; }
         public int TotalLongWords { get; }
         public Dictionary<char, int> CharacterFrequency { get; }
-        public AnalysisData(int TotalSentences, int TotalVowels, int TotalConsonants, int TotalUpper, int TotalLower, int TotalLongWords, Dictionary<char, int> CharacterFrequency)
+        public AnalysisData(string OriginalText, int TotalSentences, int TotalVowels, int TotalConsonants, int TotalUpper, int TotalLower, int TotalLongWords, Dictionary<char, int> CharacterFrequency)
         {
+            this.OriginalText = OriginalText;
             this.TotalSentences = TotalSentences;
             this.TotalVowels = TotalVowels;
             this.TotalConsonants = TotalConsonants;
