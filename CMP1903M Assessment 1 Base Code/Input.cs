@@ -8,10 +8,6 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     public class Input
     {
-        //Method: manualTextInput
-        //Arguments: none
-        //Returns: string
-        //Gets text input from the keyboard
         public string manualTextInput()
         {
             string text = "";
@@ -27,11 +23,6 @@ namespace CMP1903M_Assessment_1_Base_Code
 
             return text;
         }
-
-        //Method: fileTextInput
-        //Arguments: string (the file path)
-        //Returns: string
-        //Gets text input from a .txt file
         public string fileTextInput()
         {
             string text = "";

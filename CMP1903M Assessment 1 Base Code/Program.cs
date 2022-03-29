@@ -12,11 +12,6 @@ namespace CMP1903M_Assessment_1_Base_Code
     {
         static void Main()
         {
-            //Local list of integers to hold the first five measurements of the text
-            List<int> parameters = new List<int>();
-
-            //Create 'Input' object
-            //Get either manually entered text, or text from a file
             Console.WriteLine("1. Do you want to enter the text via the keyboard?\n2. Do you want to read in the form of a text file?");
             Console.Write("Option: ");
             string? option = Console.ReadLine();
@@ -42,11 +37,14 @@ namespace CMP1903M_Assessment_1_Base_Code
                     Environment.Exit(1);
                     break;
             }
-            //Pass the text input to the 'analyseText' method
             AnalysisData data = Analyse.analyseText(option);
-            //Report the results of the analysis
             Report.outputReportToConsole(data);
-            Report.outputReportToTextFile(data);
+            bool fileInputIsSelected = choice == 2;
+            if (fileInputIsSelected)
+            {
+                Report.outputLongWordsToTextFile(data);
+            }
+            
 
 
         }

@@ -12,22 +12,15 @@ namespace CMP1903M_Assessment_1_Base_Code
         static readonly int longWordLimit = 7;
         static readonly HashSet<char> vowels = new HashSet<char> { 'a', 'e', 'i', 'o', 'u' };
         static readonly HashSet<char> punctuation = new HashSet<char> { '.', '!', '?' };
-        //Handles the analysis of text
-
-        //Method: analyseText
-        //Arguments: string
-        //Returns: AnalysisData containing metrics about the text
-        //Calculates and returns an analysis of the text
 
         public static AnalysisData analyseText(string inputText)
         {
-            //List of integers to hold the first five measurements:
             int totalSentences = 0;
             int totalLongWords = 0;
             int totalVowels = 0;
             int totalUpper = 0;
+            List<string> longWordList = new List<string>();
 
-            // Number of sentences
             string[] allSentences = inputText.Split(punctuation.ToArray(), StringSplitOptions.RemoveEmptyEntries);
             totalSentences = allSentences.Length;
 
@@ -42,7 +35,9 @@ namespace CMP1903M_Assessment_1_Base_Code
             {
                 if (word.Length >= longWordLimit)
                 {
-                    totalLongWords++;                   
+                    totalLongWords++;
+                    longWordList.Add(word.ToLower());
+                    
                 }
             }
 
@@ -52,12 +47,10 @@ namespace CMP1903M_Assessment_1_Base_Code
             Dictionary<char, int> characterFrequency = new Dictionary<char, int>();
             foreach (char c in charactersFromText)
             {
-                //Check case of character
                 if (char.IsUpper(c))
                 {
                     totalUpper++;
                 }
-                //Check if character is a vowel or consonant
                 if (vowels.Contains(char.ToLower(c)))
                 {
                     totalVowels++;
@@ -72,7 +65,7 @@ namespace CMP1903M_Assessment_1_Base_Code
                     characterFrequency[c] = 1;
                 }                                                                                  
             }
-            return new AnalysisData(inputText, totalSentences, totalVowels, totalCharacterCount-totalVowels, totalUpper,totalCharacterCount-totalUpper, totalLongWords, characterFrequency);           
+            return new AnalysisData(inputText, totalSentences, totalVowels, totalCharacterCount-totalVowels, totalUpper,totalCharacterCount-totalUpper, totalLongWords, longWordList, characterFrequency);           
         }
     }
 
@@ -85,8 +78,9 @@ namespace CMP1903M_Assessment_1_Base_Code
         public int TotalUpper { get; }
         public int TotalLower { get; }
         public int TotalLongWords { get; }
+        public List<string> longWordList { get; }
         public Dictionary<char, int> CharacterFrequency { get; }
-        public AnalysisData(string OriginalText, int TotalSentences, int TotalVowels, int TotalConsonants, int TotalUpper, int TotalLower, int TotalLongWords, Dictionary<char, int> CharacterFrequency)
+        public AnalysisData(string OriginalText, int TotalSentences, int TotalVowels, int TotalConsonants, int TotalUpper, int TotalLower, int TotalLongWords, List<string> LongWordList, Dictionary<char, int> CharacterFrequency)
         {
             this.OriginalText = OriginalText;
             this.TotalSentences = TotalSentences;
@@ -95,6 +89,7 @@ namespace CMP1903M_Assessment_1_Base_Code
             this.TotalUpper = TotalUpper;
             this.TotalLower = TotalLower;
             this.TotalLongWords = TotalLongWords;
+            this.longWordList = LongWordList;
             this.CharacterFrequency = CharacterFrequency;
         }
     }

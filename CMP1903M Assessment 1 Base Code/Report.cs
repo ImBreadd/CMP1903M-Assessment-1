@@ -8,15 +8,13 @@ namespace CMP1903M_Assessment_1_Base_Code
 {
     class Report
     {
-        //Outputs to console
         public static void outputReportToConsole(AnalysisData data)
         {
             Console.Write(outputStringFromAnalysisData(data));
         }
-        //Outputs to text file
-        public static void outputReportToTextFile(AnalysisData data)
+        public static void outputLongWordsToTextFile(AnalysisData data)
         {
-            File.WriteAllText("Text-Analysis-Report-" + DateTime.Now.Ticks + ".txt", data.OriginalText + "\n\n" + outputStringFromAnalysisData(data));
+            File.WriteAllLines("Long-Word-List-" + DateTime.Now.Ticks + ".txt", data.longWordList);
         }
         //Builds output string
         private static string outputStringFromAnalysisData(AnalysisData data)
